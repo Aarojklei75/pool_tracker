@@ -1,6 +1,9 @@
 // -----------------------------
 // Firebase Database Reference
 // -----------------------------
+
+firebase.initializeApp(window.FIREBASE_CONFIG);
+
 const db = firebase.database();
 const scoresRef = db.ref("scores");
 
