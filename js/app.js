@@ -1,12 +1,16 @@
 // -----------------------------
-// Firebase Database Reference
+// Initialize Firebase
 // -----------------------------
-firebase.initializeApp(window.FIREBASE_CONFIG);
+import firebase from "firebase/compat/app";
 
+firebase.initializeApp(window.FIREBASE_CONFIG);
 const db = firebase.database();
 const scoresRef = db.ref("scores");
 
-// Default score structure
+
+// -----------------------------
+// Default Score Structure
+// -----------------------------
 let scores = {
   player1: 0,
   player2: 0,
@@ -14,7 +18,7 @@ let scores = {
 };
 
 // -----------------------------
-// Load Data From Firebase
+// Load Data from Firebase
 // -----------------------------
 scoresRef.on("value", snapshot => {
   const data = snapshot.val();
@@ -34,9 +38,9 @@ function updateUI() {
 }
 
 // -----------------------------
-// Add Win Function (Called by buttons)
+// Add Win Function
 // -----------------------------
-window.addWin = function(player) {
+function addWin(player) {
   if (player === 1) {
     scores.player1++;
   } else if (player === 2) {
@@ -51,7 +55,10 @@ window.addWin = function(player) {
 
   // Save to Firebase
   scoresRef.set(scores);
-};
+}
+
+// Expose addWin globally just in case
+window.addWin = addWin;
 
 // -----------------------------
 // Chart.js Graph
@@ -92,10 +99,16 @@ function updateChart() {
       responsive: true,
       animation: true,
       scales: {
-        y: {
-          beginAtZero: true
-        }
+        y: { beginAtZero: true }
       }
     }
   });
 }
+
+// -----------------------------
+// Event Listeners for Buttons
+// -----------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("btn-p1").addEventListener("click", () => addWin(1));
+  document.getElementById("btn-p2").addEventListener("click", () => addWin(2));
+});
