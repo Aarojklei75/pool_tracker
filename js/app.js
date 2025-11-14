@@ -1,7 +1,6 @@
 // -----------------------------
 // Firebase Database Reference
 // -----------------------------
-
 firebase.initializeApp(window.FIREBASE_CONFIG);
 
 const db = firebase.database();
@@ -37,7 +36,7 @@ function updateUI() {
 // -----------------------------
 // Add Win Function (Called by buttons)
 // -----------------------------
-function addWin(player) {
+window.addWin = function(player) {
   if (player === 1) {
     scores.player1++;
   } else if (player === 2) {
@@ -52,7 +51,7 @@ function addWin(player) {
 
   // Save to Firebase
   scoresRef.set(scores);
-}
+};
 
 // -----------------------------
 // Chart.js Graph
